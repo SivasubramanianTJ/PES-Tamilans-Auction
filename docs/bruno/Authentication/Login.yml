@@ -6,6 +6,13 @@ info:
 http:
   method: POST
   url: http://localhost:4000/api/auth/login
+  body:
+    type: json
+    data: |-
+      {
+        "username": "superadmin",
+        "password": "Admin@123"
+      }
   auth: inherit
 
 settings:

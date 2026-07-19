@@ -1,0 +1,36 @@
+info:
+  name: Create Season
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:4000/api/seasons
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYjRlNzEzMS00NDcwLTQ4YzYtYjIzOC1kMWU5ODM4ZWFiMDIiLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE3ODQ0ODczNzksImV4cCI6MTc4NTA5MjE3OX0.9u480PKQoMHTVEL28lqb1WbEMzhMQQ1RVOsREdUU7QU
+  body:
+    type: json
+    data: |-
+      {
+        "seasonNumber": 2,
+        "name": "IPL 2027",
+        "description": "PES Tamilans Auction Season 2",
+        "auctionDate": "2027-08-01T10:00:00.000Z",
+        "seasonStartDate": "2027-09-01T00:00:00.000Z",
+        "seasonEndDate": "2027-11-01T00:00:00.000Z",
+        "teamCount": 10,
+        "teamBudget": 120000000,
+        "squadSize": 25,
+        "basePlayerPrice": 200000,
+        "bidIncrement": 100000,
+        "retentionLimit": 4,
+        "rtmLimit": 2
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
