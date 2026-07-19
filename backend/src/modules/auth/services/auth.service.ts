@@ -35,3 +35,21 @@ export async function loginService(data: LoginInput) {
     },
   };
 }
+
+export async function getCurrentUser(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+      fullName: true,
+      username: true,
+      role: true,
+      isActive: true,
+      profileImageUrl: true,
+    },
+  });
+
+  return user;
+}

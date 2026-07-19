@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { loginSchema } from "../validations/auth.validation";
 import { loginService } from "../services/auth.service";
+import { getCurrentUser } from "../services/auth.service";
 
 export async function loginController(
   req: Request,
@@ -23,4 +24,16 @@ export async function loginController(
       message: error.message,
     });
   }
+}
+
+export async function me(
+  req: Request,
+  res: Response
+) {
+  const user = await getCurrentUser(req.user!.id);
+
+  return res.json({
+    success: true,
+    data: user,
+  });
 }
