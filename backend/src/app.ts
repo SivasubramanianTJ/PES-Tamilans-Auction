@@ -3,6 +3,8 @@ import cors from "cors";
 
 import authRoutes from "./modules/auth/routes/auth.routes";
 
+import teamRoutes from "./modules/teams/routes/team.routes";
+
 const app = express();
 
 app.use(cors());
@@ -18,5 +20,6 @@ app.get("/", (_req, res) => {
 
 // API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/teams", teamRoutes);
 
 export default app;
