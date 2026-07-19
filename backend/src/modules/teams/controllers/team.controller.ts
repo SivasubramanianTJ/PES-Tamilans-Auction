@@ -9,7 +9,10 @@ export async function createTeamController(
   try {
     const data = createTeamSchema.parse(req.body);
 
-    const team = await createTeam(data);
+    const team = await createTeam(
+  data,
+  req.user!.id
+);
 
     return res.status(201).json({
       success: true,
@@ -17,9 +20,12 @@ export async function createTeamController(
       data: team,
     });
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      error,
-    });
-  }
+  console.error("===== CREATE TEAM ERROR =====");
+  console.error(error);
+
+  return res.status(400).json({
+    success: false,
+    error: error instanceof Error ? error.message : error,
+  });
+}
 }
