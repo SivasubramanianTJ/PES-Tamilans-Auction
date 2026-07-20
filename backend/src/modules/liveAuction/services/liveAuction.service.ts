@@ -1,6 +1,8 @@
 import { prisma } from "../../../config/prisma";
 import { StartPlayerAuctionInput } from "../validations/liveAuction.validation";
 
+import { PlaceBidInput } from "../validations/liveAuction.validation";
+
 export async function startPlayerAuctionService(
   data: StartPlayerAuctionInput
 ) {
@@ -39,4 +41,73 @@ export async function startPlayerAuctionService(
   });
 
   return seasonPlayer;
+}
+
+export async function placeBidService(
+  data: PlaceBidInput
+) {
+  // Get active season
+  const season = await prisma.season.findFirst({
+    where: {
+      isActive: true,
+    },
+  });
+
+  if (!season) {
+    throw new Error("No active season found");
+  }
+
+  if (!season.isPlayerLive) {
+    throw new Error("No player is currently live");
+  }
+
+  if (!season.currentSeasonPlayerId) {
+    throw new Error("Current player not found");
+  }
+
+  // Get team
+  const team = await prisma.team.findUnique({
+    where: {
+      id: data.teamId,
+    },
+  });
+
+  if (!team) {
+    throw new Error("Team not found");
+  }
+
+  // Calculate next bid
+  const nextBid =
+    (season.currentBid ?? BigInt(0)) + season.bidIncrement;
+
+  // Check purse
+  if (team.remainingBudget < nextBid) {
+    throw new Error("Insufficient remaining budget");
+  }
+
+  // Save bid history
+  await prisma.auctionBid.create({
+    data: {
+      seasonId: season.id,
+      seasonPlayerId: season.currentSeasonPlayerId,
+      teamId: team.id,
+      bidAmount: nextBid,
+    },
+  });
+
+  // Update live auction state
+  await prisma.season.update({
+    where: {
+      id: season.id,
+    },
+    data: {
+      currentBid: nextBid,
+      currentBidTeamId: team.id,
+    },
+  });
+
+  return {
+    team: team.name,
+    bidAmount: nextBid,
+  };
 }

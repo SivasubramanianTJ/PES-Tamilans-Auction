@@ -5,3 +5,9 @@ export const startPlayerSchema = z.object({
 });
 
 export type StartPlayerAuctionInput = z.infer<typeof startPlayerSchema>;
+
+export const placeBidSchema = z.object({
+  teamId: z.string().uuid(),
+});
+
+export type PlaceBidInput = z.infer<typeof placeBidSchema>;

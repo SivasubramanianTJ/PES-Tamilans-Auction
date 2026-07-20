@@ -69,6 +69,7 @@ isPlayerLive          Boolean @default(false)
 
   teams            Team[]
   seasonPlayers    SeasonPlayer[]
+  auctionBids AuctionBid[]
 }
 
 model User {
@@ -148,6 +149,7 @@ model Team {
   players         SeasonPlayer[]
 
   @@unique([seasonId, name])
+  auctionBids AuctionBid[]
 }
 
 model SeasonPlayer {
@@ -179,4 +181,25 @@ model SeasonPlayer {
   team                   Team? @relation(fields: [teamId], references: [id])
 
   @@unique([seasonId, playerId])
+  auctionBids AuctionBid[]
+}
+
+model AuctionBid {
+  id             String   @id @default(uuid())
+
+  seasonId       String
+  seasonPlayerId String
+  teamId         String
+
+  bidAmount      BigInt
+
+  createdAt      DateTime @default(now())
+
+  season         Season       @relation(fields: [seasonId], references: [id])
+  seasonPlayer   SeasonPlayer @relation(fields: [seasonPlayerId], references: [id])
+  team           Team         @relation(fields: [teamId], references: [id])
+
+  @@index([seasonId])
+  @@index([seasonPlayerId])
+  @@index([teamId])
 }
