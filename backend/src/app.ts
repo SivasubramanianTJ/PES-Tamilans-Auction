@@ -13,6 +13,8 @@ import seasonPlayerRoutes from "./modules/seasonPlayers/routes/seasonPlayer.rout
 
 import auctionRoutes from "./modules/auction/routes/auction.routes";
 
+import liveAuctionRoutes from "./modules/liveAuction/routes/liveAuction.routes";
+
 const app = express();
 
 app.use(cors());
@@ -33,5 +35,6 @@ app.use("/api/seasons", seasonRoutes);
 app.use("/api/players", playerRoutes);
 app.use("/api/season-players", seasonPlayerRoutes);
 app.use("/api/auction", auctionRoutes);
+app.use("/api/live-auction", liveAuctionRoutes);
 
 export default app;

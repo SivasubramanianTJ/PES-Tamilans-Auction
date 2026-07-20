@@ -46,6 +46,11 @@ model Season {
 
   status           SeasonStatus @default(SETUP)
 
+  currentSeasonPlayerId String?
+currentBid            BigInt?
+currentBidTeamId      String?
+isPlayerLive          Boolean @default(false)
+
   teamCount        Int
   teamBudget       BigInt
 
