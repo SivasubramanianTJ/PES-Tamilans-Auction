@@ -7,6 +7,8 @@ import teamRoutes from "./modules/teams/routes/team.routes";
 
 import seasonRoutes from "./modules/seasons/routes/season.routes";
 
+import playerRoutes from "./modules/players/routes/player.routes";
+
 const app = express();
 
 app.use(cors());
@@ -24,5 +26,6 @@ app.get("/", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/teams", teamRoutes);
 app.use("/api/seasons", seasonRoutes);
+app.use("/api/players", playerRoutes);
 
 export default app;
