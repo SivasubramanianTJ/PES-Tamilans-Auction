@@ -1,0 +1,25 @@
+info:
+  name: Create Player
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:4000/api/players
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYjRlNzEzMS00NDcwLTQ4YzYtYjIzOC1kMWU5ODM4ZWFiMDIiLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE3ODQ0ODczNzksImV4cCI6MTc4NTA5MjE3OX0.9u480PKQoMHTVEL28lqb1WbEMzhMQQ1RVOsREdUU7QU
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Virat Kohli",
+        "phoneNumber": "9876543210"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
