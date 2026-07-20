@@ -11,3 +11,10 @@ export const placeBidSchema = z.object({
 });
 
 export type PlaceBidInput = z.infer<typeof placeBidSchema>;
+
+export const finishPlayerAuctionSchema = z.object({
+  sold: z.boolean(),
+});
+
+export type FinishPlayerAuctionInput =
+  z.infer<typeof finishPlayerAuctionSchema>;

@@ -4,12 +4,28 @@ import { authenticate } from "../../auth/middleware/auth.middleware";
 
 import { startPlayerAuctionController } from "../controllers/liveAuction.controller";
 
+import { finishPlayerAuctionController } from "../controllers/liveAuction.controller";
+
+import { placeBidController } from "../controllers/liveAuction.controller";
+
 const router = Router();
 
 router.post(
   "/start-player",
   authenticate,
   startPlayerAuctionController
+);
+
+router.post(
+  "/place-bid",
+  authenticate,
+  placeBidController
+);
+
+router.post(
+  "/finish-player",
+  authenticate,
+  finishPlayerAuctionController
 );
 
 export default router;
