@@ -1,0 +1,24 @@
+info:
+  name: Create Auction API
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:4000/api/auction/start
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYjRlNzEzMS00NDcwLTQ4YzYtYjIzOC1kMWU5ODM4ZWFiMDIiLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE3ODQ0ODczNzksImV4cCI6MTc4NTA5MjE3OX0.9u480PKQoMHTVEL28lqb1WbEMzhMQQ1RVOsREdUU7QU
+  body:
+    type: json
+    data: |-
+      {
+        "seasonId": "8d28fc7a-ea70-4486-8c45-f91dfeb0c1e2"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

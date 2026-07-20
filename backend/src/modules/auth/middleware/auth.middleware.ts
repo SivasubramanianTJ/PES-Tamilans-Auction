@@ -1,6 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-
 import { verifyToken } from "../../../utils/jwt/jwt";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        id: string;
+        role: string;
+      };
+    }
+  }
+}
 
 export function authenticate(
   req: Request,
@@ -10,14 +20,14 @@ export function authenticate(
   try {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         success: false,
-        message: "Authorization token missing",
+        message: "Unauthorized",
       });
     }
 
-    const token = authHeader.replace("Bearer ", "");
+    const token = authHeader.split(" ")[1];
 
     const payload = verifyToken(token);
 
