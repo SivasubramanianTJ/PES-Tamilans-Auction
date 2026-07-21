@@ -48,7 +48,7 @@ export async function startPlayerAuctionService(
 
 io.emit(AUCTION_EVENTS.START_PLAYER, {
   player: seasonPlayer.player.name,
-  basePrice: seasonPlayer.basePrice,
+  basePrice: seasonPlayer.basePrice.toString(),
 });
 
   return seasonPlayer;
@@ -115,7 +115,7 @@ export async function placeBidService(
 
 io.emit(AUCTION_EVENTS.NEW_BID, {
   team: team.name,
-  bidAmount: nextBid,
+  bidAmount: nextBid.toString(),
 });
 
   return {
@@ -168,7 +168,7 @@ export async function finishPlayerAuctionService(
 io.emit(AUCTION_EVENTS.PLAYER_SOLD, {
   playerId: seasonPlayer.id,
   teamId: season.currentBidTeamId,
-  soldPrice: season.currentBid,
+  soldPrice: season.currentBid?.toString(),
 });
       await tx.seasonPlayer.update({
         where: {

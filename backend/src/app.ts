@@ -15,6 +15,11 @@ import auctionRoutes from "./modules/auction/routes/auction.routes";
 
 import liveAuctionRoutes from "./modules/liveAuction/routes/liveAuction.routes";
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors());
@@ -27,6 +32,8 @@ app.get("/", (_req, res) => {
     version: "1.0.0",
   });
 });
+
+app.use(express.static(path.join(__dirname, "../public")));
 
 // API Routes
 app.use("/api/auth", authRoutes);
