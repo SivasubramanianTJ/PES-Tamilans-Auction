@@ -4,6 +4,8 @@ import {
   PlaceBidInput,
   FinishPlayerAuctionInput,
 } from "../validations/liveAuction.validation";
+import { getIO } from "../../../socket";
+import { AUCTION_EVENTS } from "../../../socket/events";
 
 export async function startPlayerAuctionService(
   data: StartPlayerAuctionInput
@@ -41,6 +43,13 @@ export async function startPlayerAuctionService(
       isPlayerLive: true,
     },
   });
+
+  const io = getIO();
+
+io.emit(AUCTION_EVENTS.START_PLAYER, {
+  player: seasonPlayer.player.name,
+  basePrice: seasonPlayer.basePrice,
+});
 
   return seasonPlayer;
 }
@@ -102,6 +111,13 @@ export async function placeBidService(
     },
   });
 
+  const io = getIO();
+
+io.emit(AUCTION_EVENTS.NEW_BID, {
+  team: team.name,
+  bidAmount: nextBid,
+});
+
   return {
     team: team.name,
     bidAmount: nextBid,
@@ -147,6 +163,13 @@ export async function finishPlayerAuctionService(
   // SOLD
   if (data.sold) {
     await prisma.$transaction(async (tx) => {
+       const io = getIO();
+
+io.emit(AUCTION_EVENTS.PLAYER_SOLD, {
+  playerId: seasonPlayer.id,
+  teamId: season.currentBidTeamId,
+  soldPrice: season.currentBid,
+});
       await tx.seasonPlayer.update({
         where: {
           id: seasonPlayer.id,
@@ -200,7 +223,104 @@ export async function finishPlayerAuctionService(
     },
   });
 
+  const io = getIO();
+
+io.emit(AUCTION_EVENTS.PLAYER_UNSOLD, {
+  playerId: seasonPlayer.id,
+});
+
   return {
     message: "Player marked as unsold",
   };
+}
+
+export async function getCurrentAuctionService() {
+  const season = await prisma.season.findFirst({
+    where: {
+      isActive: true,
+    },
+  });
+
+  if (!season) {
+    throw new Error("No active season found");
+  }
+
+  if (!season.isPlayerLive) {
+    throw new Error("No player is currently live");
+  }
+
+  if (!season.currentSeasonPlayerId) {
+    throw new Error("Current player not found");
+  }
+
+  const seasonPlayer = await prisma.seasonPlayer.findUnique({
+    where: {
+      id: season.currentSeasonPlayerId,
+    },
+    include: {
+      player: true,
+    },
+  });
+
+  if (!seasonPlayer) {
+    throw new Error("Season player not found");
+  }
+
+  let currentTeam = null;
+
+  if (season.currentBidTeamId) {
+    const team = await prisma.team.findUnique({
+      where: {
+        id: season.currentBidTeamId,
+      },
+    });
+
+    currentTeam = team?.name ?? null;
+  }
+
+  return {
+    player: seasonPlayer.player.name,
+    basePrice: seasonPlayer.basePrice,
+    currentBid: season.currentBid,
+    currentTeam,
+    isPlayerLive: season.isPlayerLive,
+  };
+}
+
+export async function getBidHistoryService() {
+  const season = await prisma.season.findFirst({
+    where: {
+      isActive: true,
+    },
+  });
+
+  if (!season) {
+    throw new Error("No active season found");
+  }
+
+  if (!season.isPlayerLive) {
+    throw new Error("No player is currently live");
+  }
+
+  if (!season.currentSeasonPlayerId) {
+    throw new Error("Current player not found");
+  }
+
+  const bids = await prisma.auctionBid.findMany({
+    where: {
+      seasonPlayerId: season.currentSeasonPlayerId,
+    },
+    include: {
+      team: true,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  return bids.map((bid) => ({
+    team: bid.team.name,
+    bidAmount: bid.bidAmount,
+    //createdAt: bid.createdAt,
+  }));
 }

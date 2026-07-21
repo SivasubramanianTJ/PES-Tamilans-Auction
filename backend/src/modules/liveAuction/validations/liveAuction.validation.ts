@@ -18,3 +18,9 @@ export const finishPlayerAuctionSchema = z.object({
 
 export type FinishPlayerAuctionInput =
   z.infer<typeof finishPlayerAuctionSchema>;
+
+export const getCurrentAuctionSchema = z.object({});
+export type GetCurrentAuctionInput = z.infer<typeof getCurrentAuctionSchema>;
+
+export const getBidHistorySchema = z.object({});
+export type GetBidHistoryInput = z.infer<typeof getBidHistorySchema>;
