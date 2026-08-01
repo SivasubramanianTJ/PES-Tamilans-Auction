@@ -1,5 +1,5 @@
-import { prisma } from "../../../config/prisma";
-import { CreatePlayerInput } from "../validations/player.validation";
+import { prisma } from "../../../config/prisma.js";
+import { CreatePlayerInput } from "../validations/player.validation.js";
 const activeSeason = await prisma.season.findFirst({
   where: {
     isActive: true,

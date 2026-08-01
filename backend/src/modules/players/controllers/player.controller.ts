@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 
-import { createPlayerSchema } from "../validations/player.validation";
-import { createPlayer } from "../services/player.service";
+import { createPlayerSchema } from "../validations/player.validation.js";
+import { createPlayer } from "../services/player.service.js";
 
 import XLSX from "xlsx";
 import fs from "fs";
 
-import { prisma } from "../../../config/prisma";
-import { importPlayerSchema } from "../validations/importPlayer.validation";
+import { prisma } from "../../../config/prisma.js";
+import { importPlayerSchema } from "../validations/importPlayer.validation.js";
 
 export async function createPlayerController(
   req: Request,

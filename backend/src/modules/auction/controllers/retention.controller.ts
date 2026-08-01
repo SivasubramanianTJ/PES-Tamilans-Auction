@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { retentionSchema } from "../validations/retention.validation";
-import { retentionService } from "../services/retention.service";
+import { retentionSchema } from "../validations/retention.validation.js";
+import { retentionService } from "../services/retention.service.js";
 
 export async function retentionController(
   req: Request,

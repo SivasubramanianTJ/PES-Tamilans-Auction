@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import { authenticate } from "../../auth/middleware/auth.middleware";
-import { authorize } from "../../auth/middleware/authorize.middleware";
+import { authenticate } from "../../auth/middleware/auth.middleware.js";
+import { authorize } from "../../auth/middleware/authorize.middleware.js";
 
-import { exportExcelController } from "../controllers/export.controller";
+import { exportExcelController } from "../controllers/export.controller.js";
 
 const router = Router();
 

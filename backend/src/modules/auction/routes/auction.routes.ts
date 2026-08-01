@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-import { authenticate } from "../../auth/middleware/auth.middleware";
-import { startAuctionController } from "../controllers/auction.controller";
+import { authenticate } from "../../auth/middleware/auth.middleware.js";
+import { startAuctionController } from "../controllers/auction.controller.js";
 
-import { retentionController } from "../controllers/retention.controller";
-import { authorize } from "../../auth/middleware/authorize.middleware";
+import { retentionController } from "../controllers/retention.controller.js";
+import { authorize } from "../../auth/middleware/authorize.middleware.js";
 
 const router = Router();
 

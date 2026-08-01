@@ -1,4 +1,4 @@
-import { prisma } from "../../../config/prisma";
+import { prisma } from "../../../config/prisma.js";
 
 export async function startAuction() {
   // Business Rule 1: There must be an active season

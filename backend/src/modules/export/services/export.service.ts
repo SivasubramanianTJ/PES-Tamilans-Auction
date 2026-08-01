@@ -1,5 +1,5 @@
 import ExcelJS from "exceljs";
-import { getAuctionAnalytics } from "../../analytics/services/analytics.service";
+import { getAuctionAnalytics } from "../../analytics/services/analytics.service.js";
 
 export async function exportAuctionExcel() {
 

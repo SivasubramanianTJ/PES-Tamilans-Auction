@@ -1,16 +1,16 @@
 import { Router } from "express";
 
-import { authenticate } from "../../auth/middleware/auth.middleware";
-import { authorize } from "../../auth/middleware/authorize.middleware";
+import { authenticate } from "../../auth/middleware/auth.middleware.js";
+import { authorize } from "../../auth/middleware/authorize.middleware.js";
 
 import {
   createTeamController,
   getLiveTeamsController,
   uploadTeamLogoController,
-} from "../controllers/team.controller";
-import { teamLogoUpload } from "../middleware/teamLogoUpload.middleware";
+} from "../controllers/team.controller.js";
+import { teamLogoUpload } from "../middleware/teamLogoUpload.middleware.js";
 
-import { getMyTeamController } from "../controllers/team.controller";
+import { getMyTeamController } from "../controllers/team.controller.js";
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { startPlayerSchema } from "../validations/liveAuction.validation";
-import { finishPlayerAuctionSchema } from "../validations/liveAuction.validation";
-import { placeBidSchema } from "../validations/liveAuction.validation";
+import { startPlayerSchema } from "../validations/liveAuction.validation.js";
+import { finishPlayerAuctionSchema } from "../validations/liveAuction.validation.js";
+import { placeBidSchema } from "../validations/liveAuction.validation.js";
 
 import {
   startPlayerAuctionService,
@@ -9,9 +9,9 @@ import {
   finishPlayerAuctionService,
   getCurrentAuctionService,
   getRemainingPlayersService,
-} from "../services/liveAuction.service";
+} from "../services/liveAuction.service.js";
 
-import { getBidHistoryService } from "../services/liveAuction.service";
+import { getBidHistoryService } from "../services/liveAuction.service.js";
 
 export async function startPlayerAuctionController(
   req: Request,

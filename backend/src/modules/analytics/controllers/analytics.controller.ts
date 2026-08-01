@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getAuctionAnalytics } from "../services/analytics.service";
+import { getAuctionAnalytics } from "../services/analytics.service.js";
 
 export async function getAnalyticsController(
   req: Request,

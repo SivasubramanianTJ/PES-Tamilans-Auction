@@ -4,9 +4,9 @@ import {
   createUserController,
   me,
   assignCaptainController,
-} from "../controllers/auth.controller";
-import { authenticate } from "../middleware/auth.middleware";
-import { authorize } from "../middleware/authorize.middleware";
+} from "../controllers/auth.controller.js";
+import { authenticate } from "../middleware/auth.middleware.js";
+import { authorize } from "../middleware/authorize.middleware.js";
 
 const router = Router();
 

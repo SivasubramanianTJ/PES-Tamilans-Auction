@@ -1,5 +1,5 @@
-import { prisma } from "../../../config/prisma";
-import { CreateTeamInput } from "../validations/team.validation";
+import { prisma } from "../../../config/prisma.js";
+import { CreateTeamInput } from "../validations/team.validation.js";
 
 export async function createTeam(
   data: CreateTeamInput,

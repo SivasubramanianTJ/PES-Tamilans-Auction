@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { authenticate } from "../../auth/middleware/auth.middleware";
+import { authenticate } from "../../auth/middleware/auth.middleware.js";
 
-// import { startPlayerAuctionController } from "../controllers/liveAuction.controller";
+// import { startPlayerAuctionController } from "../controllers/liveAuction.controller.js";
 
-// import { finishPlayerAuctionController } from "../controllers/liveAuction.controller";
+// import { finishPlayerAuctionController } from "../controllers/liveAuction.controller.js";
 
-// import { placeBidController } from "../controllers/liveAuction.controller";
+// import { placeBidController } from "../controllers/liveAuction.controller.js";
 
 import {
   startPlayerAuctionController,
@@ -15,7 +15,7 @@ import {
   getCurrentAuctionController,
   getBidHistoryController,
   getRemainingPlayersController,
-} from "../controllers/liveAuction.controller";
+} from "../controllers/liveAuction.controller.js";
 
 const router = Router();
 

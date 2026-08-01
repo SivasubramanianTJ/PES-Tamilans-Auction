@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { createTeamSchema } from "../validations/team.validation";
+import { createTeamSchema } from "../validations/team.validation.js";
 import {
   createTeam,
   getLiveTeamsService,
-} from "../services/team.service";
-import { getMyTeamService } from "../services/team.service";
+} from "../services/team.service.js";
+import { getMyTeamService } from "../services/team.service.js";
 
 export async function createTeamController(
   req: Request,

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { startAuctionSchema } from "../validations/auction.validation";
-import { startAuction } from "../services/auction.service";
+import { startAuctionSchema } from "../validations/auction.validation.js";
+import { startAuction } from "../services/auction.service.js";
 
 export async function startAuctionController(
   req: Request,

@@ -4,13 +4,13 @@ import {
   createPlayerController,
   importPlayersController,
   uploadPlayerImagesController,
-} from "../controllers/player.controller";
-import { authenticate } from "../../auth/middleware/auth.middleware";
-import { upload } from "../../auth/middleware/upload.middleware";
-import { playerImageUpload } from "../middleware/playerImageUpload.middleware";
+} from "../controllers/player.controller.js";
+import { authenticate } from "../../auth/middleware/auth.middleware.js";
+import { upload } from "../../auth/middleware/upload.middleware.js";
+import { playerImageUpload } from "../middleware/playerImageUpload.middleware.js";
 import {
   getPlayersController,
-} from "../controllers/player.controller";
+} from "../controllers/player.controller.js";
 
 const router = Router();
 

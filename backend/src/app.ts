@@ -1,26 +1,26 @@
 import express from "express";
 import cors from "cors";
 
-import authRoutes from "./modules/auth/routes/auth.routes";
+import authRoutes from "./modules/auth/routes/auth.routes.js";
 
-import teamRoutes from "./modules/teams/routes/team.routes";
+import teamRoutes from "./modules/teams/routes/team.routes.js";
 
-import seasonRoutes from "./modules/seasons/routes/season.routes";
+import seasonRoutes from "./modules/seasons/routes/season.routes.js";
 
-import playerRoutes from "./modules/players/routes/player.routes";
+import playerRoutes from "./modules/players/routes/player.routes.js";
 
-import seasonPlayerRoutes from "./modules/seasonPlayers/routes/seasonPlayer.routes";
+import seasonPlayerRoutes from "./modules/seasonPlayers/routes/seasonPlayer.routes.js";
 
-import auctionRoutes from "./modules/auction/routes/auction.routes";
+import auctionRoutes from "./modules/auction/routes/auction.routes.js";
 
-import liveAuctionRoutes from "./modules/liveAuction/routes/liveAuction.routes";
+import liveAuctionRoutes from "./modules/liveAuction/routes/liveAuction.routes.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
 
-import analyticsRoutes from "./modules/analytics/routes/analytics.routes";
+import analyticsRoutes from "./modules/analytics/routes/analytics.routes.js";
 
-import exportRoutes from "./modules/export/routes/export.routes";
+import exportRoutes from "./modules/export/routes/export.routes.js";
 
 
 const __filename = fileURLToPath(import.meta.url);

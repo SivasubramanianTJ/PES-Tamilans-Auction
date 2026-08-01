@@ -3,13 +3,13 @@ import {
   loginSchema,
   createUserSchema,
   assignCaptainSchema,
-} from "../validations/auth.validation";
+} from "../validations/auth.validation.js";
 import {
   loginService,
   getCurrentUser,
   createUserService,
   assignCaptainService,
-} from "../services/auth.service";
+} from "../services/auth.service.js";
 
 export async function loginController(
   req: Request,

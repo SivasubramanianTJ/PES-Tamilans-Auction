@@ -1,12 +1,12 @@
-import { prisma } from "../../../config/prisma";
+import { prisma } from "../../../config/prisma.js";
 import {
   StartPlayerAuctionInput,
   PlaceBidInput,
   FinishPlayerAuctionInput,
-} from "../validations/liveAuction.validation";
-import { getIO } from "../../../socket";
-import { AUCTION_EVENTS } from "../../../socket/events";
-import { startAuctionTimer } from "../socket/auctionTimer";
+} from "../validations/liveAuction.validation.js";
+import { getIO } from "../../../socket/index.js";
+import { AUCTION_EVENTS } from "../../../socket/events.js";
+import { startAuctionTimer } from "../socket/auctionTimer.js";
 
 let countdown: NodeJS.Timeout | null = null;
 

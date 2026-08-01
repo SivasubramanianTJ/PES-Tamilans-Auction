@@ -1,5 +1,5 @@
-import { prisma } from "../../../config/prisma";
-import { RetentionInput } from "../validations/retention.validation";
+import { prisma } from "../../../config/prisma.js";
+import { RetentionInput } from "../validations/retention.validation.js";
 
 const MAX_SQUAD_SIZE = 9;
 

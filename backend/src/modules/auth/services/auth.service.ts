@@ -1,15 +1,15 @@
 import bcrypt from "bcrypt";
-import { prisma } from "../../../config/prisma";
-import { generateToken } from "../../../utils/jwt/jwt";
+import { prisma } from "../../../config/prisma.js";
+import { generateToken } from "../../../utils/jwt/jwt.js";
 import {
   LoginInput,
   CreateUserInput,
   AssignCaptainInput,
-} from "../validations/auth.validation";
+} from "../validations/auth.validation.js";
 
 
-import { getIO } from "../../../socket";
-import { AUCTION_EVENTS } from "../../../socket/events";
+import { getIO } from "../../../socket/index.js";
+import { AUCTION_EVENTS } from "../../../socket/events.js";
 
 export async function loginService(data: LoginInput) {
   const user = await prisma.user.findUnique({
@@ -21,7 +21,7 @@ export async function loginService(data: LoginInput) {
   if (!user) {
     throw new Error("Invalid username or password");
   }
-
+ 
   const isPasswordCorrect = await bcrypt.compare(
     data.password,
     user.passwordHash

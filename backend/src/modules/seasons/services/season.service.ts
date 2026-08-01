@@ -1,5 +1,5 @@
-import { prisma } from "../../../config/prisma";
-import { CreateSeasonInput } from "../validations/season.validation";
+import { prisma } from "../../../config/prisma.js";
+import { CreateSeasonInput } from "../validations/season.validation.js";
 
 export async function createSeason(data: CreateSeasonInput) {
   // Business Rule 1: Season number must be unique

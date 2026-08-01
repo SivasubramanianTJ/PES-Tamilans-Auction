@@ -1,5 +1,5 @@
-import { prisma } from "../../../config/prisma";
-import { CreateSeasonPlayerInput } from "../validations/seasonPlayer.validation";
+import { prisma } from "../../../config/prisma.js";
+import { CreateSeasonPlayerInput } from "../validations/seasonPlayer.validation.js";
 
 export async function createSeasonPlayer(
   data: CreateSeasonPlayerInput

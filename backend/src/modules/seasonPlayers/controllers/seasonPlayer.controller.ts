@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { createSeasonPlayerSchema } from "../validations/seasonPlayer.validation";
-import { createSeasonPlayer } from "../services/seasonPlayer.service";
+import { createSeasonPlayerSchema } from "../validations/seasonPlayer.validation.js";
+import { createSeasonPlayer } from "../services/seasonPlayer.service.js";
 
 export async function createSeasonPlayerController(
   req: Request,

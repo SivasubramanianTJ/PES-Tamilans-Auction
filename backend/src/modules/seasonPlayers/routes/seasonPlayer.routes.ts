@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import { authenticate } from "../../auth/middleware/auth.middleware";
+import { authenticate } from "../../auth/middleware/auth.middleware.js";
 
-import { createSeasonPlayerController } from "../controllers/seasonPlayer.controller";
+import { createSeasonPlayerController } from "../controllers/seasonPlayer.controller.js";
 
 const router = Router();
 

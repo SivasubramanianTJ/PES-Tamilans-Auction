@@ -7,6 +7,122 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Season {
+  id                    String         @id @default(uuid())
+  name                  String         @unique
+  description           String?
+  seasonNumber          Int            @unique
+  auctionDate           DateTime
+  seasonStartDate       DateTime
+  seasonEndDate         DateTime
+  auctionStartedAt      DateTime?
+  auctionEndedAt        DateTime?
+  status                SeasonStatus   @default(SETUP)
+  teamCount             Int
+  teamBudget            BigInt
+  squadSize             Int
+  basePlayerPrice       BigInt
+  bidIncrement          BigInt
+  retentionLimit        Int
+  rtmLimit              Int
+  isActive              Boolean        @default(false)
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  currentBid            BigInt?
+  currentBidTeamId      String?
+  currentSeasonPlayerId String?
+  isPlayerLive          Boolean        @default(false)
+  auctionBids           AuctionBid[]
+  seasonPlayers         SeasonPlayer[]
+  teams                 Team[]
+}
+
+model User {
+  id              String    @id @default(uuid())
+  fullName        String
+  username        String    @unique
+  passwordHash    String
+  phoneNumber     String?
+  profileImageUrl String?
+  role            UserRole
+  isActive        Boolean   @default(true)
+  lastLoginAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  isOnline        Boolean   @default(false)
+  player          Player?
+  captainedTeams  Team[]    @relation("TeamCaptain")
+}
+
+model Player {
+  id            String         @id @default(uuid())
+  name          String
+  phoneNumber   String         @unique
+  imageUrl      String?
+  userId        String?        @unique
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  user          User?          @relation(fields: [userId], references: [id])
+  seasonPlayers SeasonPlayer[]
+}
+
+model Team {
+  id              String         @id @default(uuid())
+  seasonId        String
+  name            String
+  logoUrl         String?
+  captainUserId   String
+  totalBudget     BigInt
+  remainingBudget BigInt
+  retentionUsed   Int            @default(0)
+  rtmUsed         Int            @default(0)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  auctionBids     AuctionBid[]
+  players         SeasonPlayer[]
+  captain         User           @relation("TeamCaptain", fields: [captainUserId], references: [id])
+  season          Season         @relation(fields: [seasonId], references: [id])
+
+  @@unique([seasonId, name])
+}
+
+model SeasonPlayer {
+  id                  String           @id @default(uuid())
+  seasonId            String
+  playerId            String
+  teamId              String?
+  basePrice           BigInt
+  soldPrice           BigInt?
+  acquisitionType     AcquisitionType?
+  isRetentionEligible Boolean          @default(false)
+  isRTMEligible       Boolean          @default(false)
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  auctionBids         AuctionBid[]
+  player              Player           @relation(fields: [playerId], references: [id])
+  season              Season           @relation(fields: [seasonId], references: [id])
+  team                Team?            @relation(fields: [teamId], references: [id])
+
+  @@unique([seasonId, playerId])
+}
+
+model AuctionBid {
+  id             String       @id @default(uuid())
+  seasonId       String
+  seasonPlayerId String
+  teamId         String
+  bidAmount      BigInt
+  createdAt      DateTime     @default(now())
+  season         Season       @relation(fields: [seasonId], references: [id])
+  seasonPlayer   SeasonPlayer @relation(fields: [seasonPlayerId], references: [id])
+  team           Team         @relation(fields: [teamId], references: [id])
+
+  @@index([seasonId])
+  @@index([seasonPlayerId])
+  @@index([teamId])
+}
+
 enum SeasonStatus {
   SETUP
   AUCTION
@@ -27,181 +143,4 @@ enum AcquisitionType {
   AUCTION
   RTM
   UNSOLD_ASSIGNMENT
-}
-
-model Season {
-  id               String   @id @default(uuid())
-
-  name             String   @unique
-  description      String?
-
-  seasonNumber     Int      @unique
-
-  auctionDate      DateTime
-  seasonStartDate  DateTime
-  seasonEndDate    DateTime
-
-  auctionStartedAt DateTime?
-  auctionEndedAt   DateTime?
-
-  status           SeasonStatus @default(SETUP)
-
-  currentSeasonPlayerId String?
-currentBid            BigInt?
-currentBidTeamId      String?
-isPlayerLive          Boolean @default(false)
-
-  teamCount        Int
-  teamBudget       BigInt
-
-  squadSize        Int
-
-  basePlayerPrice  BigInt
-  bidIncrement     BigInt
-
-  retentionLimit   Int
-  rtmLimit         Int
-
-  isActive         Boolean @default(false)
-
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  teams            Team[]
-  seasonPlayers    SeasonPlayer[]
-  auctionBids AuctionBid[]
-}
-
-model User {
-  id              String   @id @default(uuid())
-
-  fullName        String
-
-  username        String   @unique
-
-  passwordHash    String
-
-  phoneNumber     String?
-
-  profileImageUrl String?
-
-  role            UserRole
-
-  isActive        Boolean @default(true)
-
-  isOnline        Boolean @default(false)
-
-  lastLoginAt     DateTime?
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  player          Player?
-
-  captainedTeams  Team[] @relation("TeamCaptain")
-}
-
-model Player {
-  id              String   @id @default(uuid())
-
-  name            String
-
-  phoneNumber     String   @unique
-
-  imageUrl        String?
-
-  userId          String?  @unique
-
-  isActive        Boolean @default(true)
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  user            User? @relation(fields: [userId], references: [id])
-
-  seasonPlayers   SeasonPlayer[]
-}
-
-model Team {
-  id              String   @id @default(uuid())
-
-  seasonId        String
-
-  name            String
-
-  logoUrl         String?
-
-  captainUserId   String
-
-  totalBudget     BigInt
-
-  remainingBudget BigInt
-
-  retentionUsed   Int @default(0)
-
-  rtmUsed         Int @default(0)
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  season          Season @relation(fields: [seasonId], references: [id])
-
-  captain         User @relation("TeamCaptain", fields: [captainUserId], references: [id])
-
-  players         SeasonPlayer[]
-
-  @@unique([seasonId, name])
-  auctionBids AuctionBid[]
-}
-
-model SeasonPlayer {
-  id                     String @id @default(uuid())
-
-  seasonId               String
-
-  playerId               String
-
-  teamId                 String?
-
-  basePrice              BigInt
-
-  soldPrice              BigInt?
-
-  acquisitionType        AcquisitionType?
-
-  isRetentionEligible    Boolean @default(false)
-
-  isRTMEligible          Boolean @default(false)
-
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
-
-  season                 Season @relation(fields: [seasonId], references: [id])
-
-  player                 Player @relation(fields: [playerId], references: [id])
-
-  team                   Team? @relation(fields: [teamId], references: [id])
-
-  @@unique([seasonId, playerId])
-  auctionBids AuctionBid[]
-}
-
-model AuctionBid {
-  id             String   @id @default(uuid())
-
-  seasonId       String
-  seasonPlayerId String
-  teamId         String
-
-  bidAmount      BigInt
-
-  createdAt      DateTime @default(now())
-
-  season         Season       @relation(fields: [seasonId], references: [id])
-  seasonPlayer   SeasonPlayer @relation(fields: [seasonPlayerId], references: [id])
-  team           Team         @relation(fields: [teamId], references: [id])
-
-  @@index([seasonId])
-  @@index([seasonPlayerId])
-  @@index([teamId])
 }

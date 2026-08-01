@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import http from "http";
 
-import app from "./app";
-import { initializeSocket } from "./socket";
+import app from "./app.js";
+import { initializeSocket } from "./socket/index.js";
 
 dotenv.config();
 

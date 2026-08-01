@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { exportAuctionExcel } from "../services/export.service";
+import { exportAuctionExcel } from "../services/export.service.js";
 
 export async function exportExcelController(
   req: Request,
