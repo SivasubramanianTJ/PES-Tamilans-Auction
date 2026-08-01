@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import {
   getTeams,
   createTeam,
-  deleteTeam,
-  assignCaptain,
   getAvailableCaptains,
+  assignCaptain,
+  deleteTeam,
 } from "../../api/team";
 
-function TeamsPanel() {
+function TeamManagementPanel() {
   const [teams, setTeams] = useState<any[]>([]);
   const [captains, setCaptains] = useState<any[]>([]);
   const [teamName, setTeamName] = useState("");
@@ -17,10 +17,8 @@ function TeamsPanel() {
   }, []);
 
   async function loadData() {
-    const [teamsRes, captainsRes] = await Promise.all([
-      getTeams(),
-      getAvailableCaptains(),
-    ]);
+    const teamsRes = await getTeams();
+    const captainsRes = await getAvailableCaptains();
 
     setTeams(teamsRes.data.data);
     setCaptains(captainsRes.data.data);
@@ -37,10 +35,13 @@ function TeamsPanel() {
     loadData();
   }
 
-  async function handleAssign(teamId: string, captainId: string) {
-    if (!captainId) return;
+  async function handleAssign(
+    teamId: string,
+    captainUserId: string
+  ) {
+    if (!captainUserId) return;
 
-    await assignCaptain(teamId, captainId);
+    await assignCaptain(teamId, captainUserId);
 
     loadData();
   }
@@ -64,28 +65,24 @@ function TeamsPanel() {
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
           placeholder="Team name"
-          className="bg-slate-800 p-2 rounded w-72"
+          className="bg-slate-800 rounded px-3 py-2 w-72"
         />
 
         <button
           onClick={handleCreate}
-          className="bg-green-600 px-4 rounded"
+          className="bg-green-600 px-5 rounded"
         >
           Create Team
         </button>
       </div>
 
       <div className="space-y-4">
-
         {teams.map((team) => (
-
           <div
             key={team.id}
             className="bg-slate-800 rounded-lg p-5 flex justify-between items-center"
           >
-
             <div>
-
               <h2 className="text-xl font-bold">
                 {team.name}
               </h2>
@@ -96,19 +93,16 @@ function TeamsPanel() {
                   ? ` ${team.captain.fullName}`
                   : " Not Assigned"}
               </p>
-
             </div>
 
-            <div className="flex gap-3">
-
+            <div className="flex items-center gap-3">
               {!team.captain && (
-
                 <select
                   defaultValue=""
                   onChange={(e) =>
                     handleAssign(team.id, e.target.value)
                   }
-                  className="bg-slate-700 p-2 rounded"
+                  className="bg-slate-700 rounded px-2 py-2"
                 >
                   <option value="">
                     Assign Captain
@@ -122,27 +116,21 @@ function TeamsPanel() {
                       {captain.fullName}
                     </option>
                   ))}
-
                 </select>
-
               )}
 
               <button
                 onClick={() => handleDelete(team.id)}
-                className="bg-red-600 px-4 rounded"
+                className="bg-red-600 px-4 py-2 rounded"
               >
                 Delete
               </button>
-
             </div>
-
           </div>
-
         ))}
-
       </div>
     </div>
   );
 }
 
-export default TeamsPanel;
+export default TeamManagementPanel;

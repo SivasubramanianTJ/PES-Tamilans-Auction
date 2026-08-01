@@ -1,10 +1,19 @@
 import { Request, Response } from "express";
-import { createTeamSchema } from "../validations/team.validation.js";
+import {
+  createTeamSchema,
+  assignCaptainSchema,
+} from "../validations/team.validation.js";
 import {
   createTeam,
   getLiveTeamsService,
+  getAllTeamsService,
+  assignCaptainService,
+  getAvailableCaptainsService,
 } from "../services/team.service.js";
 import { getMyTeamService } from "../services/team.service.js";
+import {
+  deleteTeamService,
+} from "../services/team.service.js";
 
 export async function createTeamController(
   req: Request,
@@ -29,6 +38,34 @@ export async function createTeamController(
     error: error instanceof Error ? error.message : error,
   });
 }
+}
+
+export async function assignCaptainController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const data = assignCaptainSchema.parse(req.body);
+
+    const team = await assignCaptainService(
+      data.teamId,
+      data.captainUserId
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Captain assigned successfully",
+      data: team,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unknown error",
+    });
+  }
 }
 
 export async function getLiveTeamsController(
@@ -95,5 +132,72 @@ export async function getMyTeamController(
       success: false,
       error: error.message,
     });
+  }
+}
+
+export async function getAllTeamsController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const teams = await getAllTeamsService();
+
+    return res.json({
+      success: true,
+      data: teams,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: error instanceof Error
+        ? error.message
+        : "Unknown error",
+    });
+  }
+}
+
+export async function deleteTeamController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const result = await deleteTeamService(
+  req.params.id as string
+);
+
+    return res.status(200).json({
+      success: true,
+      message: result.message,
+    });
+
+  } catch (error: any) {
+
+    return res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+
+  }
+}
+
+export async function getAvailableCaptainsController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const captains = await getAvailableCaptainsService();
+
+    return res.status(200).json({
+      success: true,
+      data: captains,
+    });
+
+  } catch (error: any) {
+
+    return res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+
   }
 }

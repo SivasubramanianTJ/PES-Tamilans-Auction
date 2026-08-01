@@ -7,6 +7,10 @@ import {
   createTeamController,
   getLiveTeamsController,
   uploadTeamLogoController,
+  assignCaptainController,
+  getAllTeamsController,
+  deleteTeamController,
+  getAvailableCaptainsController,
 } from "../controllers/team.controller.js";
 import { teamLogoUpload } from "../middleware/teamLogoUpload.middleware.js";
 
@@ -37,6 +41,34 @@ router.get(
   authenticate,
   authorize("CAPTAIN"),
   getMyTeamController
+);
+
+router.get(
+  "/available-captains",
+  authenticate,
+  authorize("SUPER_ADMIN"),
+  getAvailableCaptainsController
+);
+
+router.patch(
+  "/assign-captain",
+  authenticate,
+  authorize("SUPER_ADMIN"),
+  assignCaptainController
+);
+
+router.get(
+  "/",
+  authenticate,
+  authorize("SUPER_ADMIN"),
+  getAllTeamsController
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("SUPER_ADMIN"),
+  deleteTeamController
 );
 
 export default router;

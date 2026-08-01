@@ -7,6 +7,7 @@ import TeamsPanel from "../../components/dashboard/TeamsPanel";
 import RetentionPanel from "../../components/dashboard/RetentionPanel";
 import AdminControls from "../../components/dashboard/AdminControls";
 import MyTeamPanel from "../../components/dashboard/MyTeamPanel";
+import TeamManagementPanel from "../../components/dashboard/TeamManagementPanel";
 
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -88,6 +89,14 @@ function Dashboard() {
   </button>
 )}
 
+{user.role !== "CAPTAIN" && (
+<button
+  onClick={() => setPage("team-management")}
+  className="w-full text-left hover:text-yellow-400"
+>
+  Team Management
+</button>)}
+
         </div>
 
       </aside>
@@ -127,6 +136,7 @@ function Dashboard() {
   {page === "auction" && <AdminControls />}
   {page === "retention" && <RetentionPanel />}
   {page === "myteam" && <MyTeamPanel />}
+  {page === "team-management" && <TeamManagementPanel />}
 </div>
 
 

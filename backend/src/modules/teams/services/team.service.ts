@@ -112,6 +112,7 @@ export async function getMyTeamService(userId: string) {
     throw new Error("Team not found");
   }
 
+
   return {
     name: team.name,
     logoUrl: team.logoUrl
@@ -127,4 +128,151 @@ export async function getMyTeamService(userId: string) {
       acquisitionType: player.acquisitionType,
     })),
   };
+}
+
+export async function assignCaptainService(
+  teamId: string,
+  captainUserId: string
+) {
+  // Check team exists
+  const team = await prisma.team.findUnique({
+    where: {
+      id: teamId,
+    },
+  });
+
+  if (!team) {
+    throw new Error("Team not found");
+  }
+
+  if (team.captainUserId) {
+  throw new Error("Team already has a captain assigned");
+}
+
+  // Check captain exists
+  const captain = await prisma.user.findUnique({
+    where: {
+      id: captainUserId,
+    },
+  });
+
+  if (!captain) {
+    throw new Error("Captain not found");
+  }
+
+  if (captain.role !== "CAPTAIN") {
+    throw new Error("Selected user is not a captain");
+  }
+
+  // Check whether captain is already assigned
+  const existingTeam = await prisma.team.findFirst({
+    where: {
+      captainUserId,
+    },
+  });
+
+  if (existingTeam) {
+    throw new Error("Captain is already assigned to another team");
+  }
+
+  // Assign captain
+  const updatedTeam = await prisma.team.update({
+    where: {
+      id: teamId,
+    },
+    data: {
+      captainUserId,
+    },
+  });
+
+  return updatedTeam;
+}
+
+export async function getAllTeamsService() {
+  const season = await prisma.season.findFirst({
+    where: {
+      isActive: true,
+    },
+  });
+
+  if (!season) {
+    throw new Error("No active season found");
+  }
+
+  return prisma.team.findMany({
+    where: {
+      seasonId: season.id,
+    },
+    include: {
+      captain: {
+        select: {
+          id: true,
+          fullName: true,
+          username: true,
+        },
+      },
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+}
+
+export async function deleteTeamService(teamId: string) {
+  const team = await prisma.team.findUnique({
+    where: {
+      id: teamId,
+    },
+  });
+
+  if (!team) {
+    throw new Error("Team not found");
+  }
+
+  if (team.captainUserId) {
+    throw new Error("Remove captain before deleting team");
+  }
+
+  const playerCount = await prisma.seasonPlayer.count({
+    where: {
+      teamId,
+    },
+  });
+
+  if (playerCount > 0) {
+    throw new Error("Cannot delete team with players");
+  }
+
+  await prisma.team.delete({
+    where: {
+      id: teamId,
+    },
+  });
+
+  return {
+    message: "Team deleted successfully",
+  };
+}
+
+export async function getAvailableCaptainsService() {
+  const captains = await prisma.user.findMany({
+    where: {
+      role: "CAPTAIN",
+      captainedTeams: {
+        none: {},
+      },
+    },
+
+    select: {
+      id: true,
+      fullName: true,
+      username: true,
+    },
+
+    orderBy: {
+      fullName: "asc",
+    },
+  });
+
+  return captains;
 }
