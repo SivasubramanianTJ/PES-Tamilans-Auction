@@ -1,0 +1,31 @@
+info:
+  name: Test Images
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: http://localhost:4000/api/players/images
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: multipart-form
+    data:
+      - name: images
+        type: file
+        value:
+          - /Users/sivasubramanian/Downloads/nm1.png
+        contentType: File
+      - name: images
+        type: file
+        value:
+          - /Users/sivasubramanian/Downloads/nm2.png
+        contentType: File
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { createSeason } from "../services/season.service";
 import { createSeasonSchema } from "../validations/season.validation";
+import { finishSeasonService } from "../services/season.service";
 
 export async function createSeasonController(
   req: Request,
@@ -30,5 +31,24 @@ export async function createSeasonController(
     success: false,
     error: error instanceof Error ? error.message : "Unknown error",
   });
+  }
+}
+
+export async function finishSeasonController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const result = await finishSeasonService();
+
+    return res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    return res.status(400).json({
+      success: false,
+      error: error.message,
+    });
   }
 }

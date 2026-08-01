@@ -14,6 +14,7 @@ import {
   finishPlayerAuctionController,
   getCurrentAuctionController,
   getBidHistoryController,
+  getRemainingPlayersController,
 } from "../controllers/liveAuction.controller";
 
 const router = Router();
@@ -46,6 +47,12 @@ router.post(
   "/finish-player",
   authenticate,
   finishPlayerAuctionController
+);
+
+router.get(
+  "/players",
+  authenticate,
+  getRemainingPlayersController
 );
 
 export default router;

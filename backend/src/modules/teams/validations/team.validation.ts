@@ -5,10 +5,8 @@ export const createTeamSchema = z.object({
     .string()
     .min(2, "Team name must be at least 2 characters"),
 
-  logoUrl: z
-    .string()
-    .url("Invalid logo URL")
-    .optional(),
+    
+  logoUrl: z.string().optional(),
 });
 
 export type CreateTeamInput =

@@ -1,0 +1,26 @@
+info:
+  name: test ts
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: http://localhost:5000/upload
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: multipart-form
+    data:
+      - name: file
+        type: file
+        value:
+          - /Users/sivasubramanian/Desktop/players.xlsx
+        contentType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

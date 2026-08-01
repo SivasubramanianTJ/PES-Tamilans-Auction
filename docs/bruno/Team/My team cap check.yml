@@ -1,0 +1,18 @@
+info:
+  name: My team cap check
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: http://localhost:4000/api/teams/my-team
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZTg4YjlmYi1hODUzLTQzYWMtOTVlNy1iODQyMjExYjUwMDUiLCJyb2xlIjoiQ0FQVEFJTiIsImlhdCI6MTc4NTU5MDEzMywiZXhwIjoxNzg2MTk0OTMzfQ.n01X4iqo2f_N-UXRGMFPhuX8VpAej1RCxlV9JOLtk1Y
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

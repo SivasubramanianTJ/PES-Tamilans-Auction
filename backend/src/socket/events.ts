@@ -4,4 +4,7 @@ export const AUCTION_EVENTS = {
   PLAYER_SOLD: "auction:player-sold",
   PLAYER_UNSOLD: "auction:player-unsold",
   CURRENT: "auction:current",
+
+  TIMER: "auction:timer",
+  CAPTAIN_STATUS: "captain:status",
 };

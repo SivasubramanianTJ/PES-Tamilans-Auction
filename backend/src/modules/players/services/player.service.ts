@@ -1,5 +1,10 @@
 import { prisma } from "../../../config/prisma";
 import { CreatePlayerInput } from "../validations/player.validation";
+const activeSeason = await prisma.season.findFirst({
+  where: {
+    isActive: true,
+  },
+});
 
 export async function createPlayer(data: CreatePlayerInput) {
   // Business Rule 1: Phone number must be unique

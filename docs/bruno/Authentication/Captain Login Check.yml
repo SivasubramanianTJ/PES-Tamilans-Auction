@@ -1,0 +1,18 @@
+info:
+  name: Captain Login Check
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: http://localhost:4000/api/teams/live
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYjRlNzEzMS00NDcwLTQ4YzYtYjIzOC1kMWU5ODM4ZWFiMDIiLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE3ODU1MTc5MjAsImV4cCI6MTc4NjEyMjcyMH0.LzDaTPHv___ztLMxR8FswOxbbDv8FpQM8NMv08Ok0rQ
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

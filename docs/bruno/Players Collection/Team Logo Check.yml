@@ -1,0 +1,26 @@
+info:
+  name: Team Logo Check
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: http://localhost:4000/api/teams/logo
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: multipart-form
+    data:
+      - name: logo
+        type: file
+        value:
+          - /Users/sivasubramanian/Downloads/csk_logo.jpeg
+        contentType: File
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

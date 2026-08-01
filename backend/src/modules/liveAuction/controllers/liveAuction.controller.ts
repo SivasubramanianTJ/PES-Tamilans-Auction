@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
 import { startPlayerSchema } from "../validations/liveAuction.validation";
-//import { startPlayerAuctionService } from "../services/liveAuction.service";
 import { finishPlayerAuctionSchema } from "../validations/liveAuction.validation";
-//import { finishPlayerAuctionService } from "../services/liveAuction.service";
 import { placeBidSchema } from "../validations/liveAuction.validation";
-//import { placeBidService } from "../services/liveAuction.service";
 
 import {
   startPlayerAuctionService,
   placeBidService,
   finishPlayerAuctionService,
   getCurrentAuctionService,
+  getRemainingPlayersService,
 } from "../services/liveAuction.service";
 
 import { getBidHistoryService } from "../services/liveAuction.service";
@@ -127,6 +125,31 @@ export async function getBidHistoryController(
 ) {
   try {
     const result = await getBidHistoryService();
+
+    const serializedResult = JSON.parse(
+      JSON.stringify(result, (_, value) =>
+        typeof value === "bigint" ? value.toString() : value
+      )
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: serializedResult,
+    });
+  } catch (error: unknown) {
+    return res.status(400).json({
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+}
+
+export async function getRemainingPlayersController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const result = await getRemainingPlayersService();
 
     const serializedResult = JSON.parse(
       JSON.stringify(result, (_, value) =>

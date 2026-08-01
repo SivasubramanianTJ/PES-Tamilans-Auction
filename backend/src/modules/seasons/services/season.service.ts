@@ -57,3 +57,29 @@ export async function getActiveSeason() {
 
   return season;
 }
+
+export async function finishSeasonService() {
+  const season = await prisma.season.findFirst({
+    where: {
+      isActive: true,
+    },
+  });
+
+  if (!season) {
+    throw new Error("No active season found");
+  }
+
+  await prisma.season.update({
+    where: {
+      id: season.id,
+    },
+    data: {
+      status: "COMPLETED",
+      isPlayerLive: false,
+    },
+  });
+
+  return {
+    message: "Auction finished successfully",
+  };
+}

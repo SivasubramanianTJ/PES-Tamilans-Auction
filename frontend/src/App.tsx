@@ -1,11 +1,14 @@
+import Login from "./pages/Login/Login";
+import Dashboard from "./pages/Dashboard/Dashboard";
+
 function App() {
-  return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-green-400">
-        🎉 Tailwind is Working!
-      </h1>
-    </div>
-  );
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Login />;
+  }
+
+  return <Dashboard />;
 }
 
 export default App;

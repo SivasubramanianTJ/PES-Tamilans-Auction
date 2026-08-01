@@ -18,12 +18,24 @@ import liveAuctionRoutes from "./modules/liveAuction/routes/liveAuction.routes";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import analyticsRoutes from "./modules/analytics/routes/analytics.routes";
+
+import exportRoutes from "./modules/export/routes/export.routes";
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/export", exportRoutes);
+
+app.use(
+  "/uploads",
+  express.static(path.join(process.cwd(), "uploads"))
+);
 
 app.get("/", (_req, res) => {
   res.status(200).json({
@@ -43,5 +55,18 @@ app.use("/api/players", playerRoutes);
 app.use("/api/season-players", seasonPlayerRoutes);
 app.use("/api/auction", auctionRoutes);
 app.use("/api/live-auction", liveAuctionRoutes);
+
+import multer from "multer";
+
+const upload = multer({ dest: "uploads/" });
+
+app.post(
+  "/upload-test",
+  upload.single("file"),
+  (req, res) => {
+    console.log(req.file);
+    res.json(req.file);
+  }
+);
 
 export default app;

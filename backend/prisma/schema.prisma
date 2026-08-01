@@ -89,6 +89,8 @@ model User {
 
   isActive        Boolean @default(true)
 
+  isOnline        Boolean @default(false)
+
   lastLoginAt     DateTime?
 
   createdAt       DateTime @default(now())

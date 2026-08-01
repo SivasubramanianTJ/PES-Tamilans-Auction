@@ -1,0 +1,25 @@
+info:
+  name: Login Admin
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: http://localhost:4000/api/auth/login
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYjRlNzEzMS00NDcwLTQ4YzYtYjIzOC1kMWU5ODM4ZWFiMDIiLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE3ODU1MTc5MjAsImV4cCI6MTc4NjEyMjcyMH0.LzDaTPHv___ztLMxR8FswOxbbDv8FpQM8NMv08Ok0rQ
+  body:
+    type: json
+    data: |-
+      {
+        "username": "admin1",
+        "password": "admin123"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
