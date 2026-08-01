@@ -78,7 +78,7 @@ export async function uploadTeamLogoController(
   return res.json({
     success: true,
     filename: req.file.filename,
-    url: `http://localhost:4000/uploads/team-logos/${req.file.filename}`,
+    url: `import.meta.env.VITE_API_URL/uploads/team-logos/${req.file.filename}`,
   });
 }
 

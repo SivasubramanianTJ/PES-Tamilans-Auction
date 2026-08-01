@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: http://localhost:4000/api/teams/my-team
+  url: import.meta.env.VITE_API_URL/api/teams/my-team
   headers:
     - name: Authorization
       value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZTg4YjlmYi1hODUzLTQzYWMtOTVlNy1iODQyMjExYjUwMDUiLCJyb2xlIjoiQ0FQVEFJTiIsImlhdCI6MTc4NTU5MDEzMywiZXhwIjoxNzg2MTk0OTMzfQ.n01X4iqo2f_N-UXRGMFPhuX8VpAej1RCxlV9JOLtk1Y

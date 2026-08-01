@@ -73,7 +73,7 @@ include: {
     id: team.id,
     name: team.name,
     logoUrl: team.logoUrl
-  ? `http://localhost:4000/uploads/team-logos/${team.logoUrl}`
+  ? `import.meta.env.VITE_API_URL/uploads/team-logos/${team.logoUrl}`
   : null,
     remainingBudget: Number(team.remainingBudget),
     playerCount: team.players.length,
@@ -105,7 +105,7 @@ export async function getMyTeamService(userId: string) {
   return {
     name: team.name,
     logoUrl: team.logoUrl
-      ? `http://localhost:4000/uploads/team-logos/${team.logoUrl}`
+      ? `import.meta.env.VITE_API_URL/uploads/team-logos/${team.logoUrl}`
       : null,
 
     remainingBudget: Number(team.remainingBudget),

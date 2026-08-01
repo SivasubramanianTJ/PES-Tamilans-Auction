@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: http://localhost:4000/api/live-auction/start-player
+  url: import.meta.env.VITE_API_URL/api/live-auction/start-player
   headers:
     - name: Authorization
       value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYjRlNzEzMS00NDcwLTQ4YzYtYjIzOC1kMWU5ODM4ZWFiMDIiLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJpYXQiOjE3ODU1MDIzMjYsImV4cCI6MTc4NjEwNzEyNn0.uswZIX-sTbazuuG0uCc9OgaxXrrCEd1dOi5v2uhdTVA

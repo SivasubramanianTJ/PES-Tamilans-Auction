@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: http://localhost:4000/api/seasons
+  url: import.meta.env.VITE_API_URL/api/seasons
   headers:
     - name: Authorization
       value: Bearer {{token}}

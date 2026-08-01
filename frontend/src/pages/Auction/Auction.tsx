@@ -12,9 +12,8 @@ function Auction() {
   const [bidHistory, setBidHistory] = useState<any[]>([]);
   const [players, setPlayers] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
-  const [soldPopup, setSoldPopup] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const [soldData, setSoldData] = useState<{
+  const [soldPopup] = useState(false);
+  const [soldData] = useState<{
   playerName: string;
   teamName: string;
   soldPrice: string;

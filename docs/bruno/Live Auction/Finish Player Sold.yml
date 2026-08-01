@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: http://localhost:4000/api/live-auction/finish-player
+  url: import.meta.env.VITE_API_URL/api/live-auction/finish-player
   headers:
     - name: Authorization
       value: Bearer {{token}}

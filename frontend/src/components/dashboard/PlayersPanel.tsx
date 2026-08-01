@@ -15,7 +15,7 @@ function PlayersPanel() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      "http://localhost:4000/api/players/import",
+      "import.meta.env.VITE_API_URL/api/players/import",
       {
         method: "POST",
         headers: {

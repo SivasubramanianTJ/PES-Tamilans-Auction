@@ -15,7 +15,7 @@
 <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 
 <script>
-const socket = io("http://localhost:4000");
+const socket = io("import.meta.env.VITE_API_URL");
 
 const logs = document.getElementById("logs");
 const status = document.getElementById("status");
