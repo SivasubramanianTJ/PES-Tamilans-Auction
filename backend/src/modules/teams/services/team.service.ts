@@ -2,8 +2,7 @@ import { prisma } from "../../../config/prisma.js";
 import { CreateTeamInput } from "../validations/team.validation.js";
 
 export async function createTeam(
-  data: CreateTeamInput,
-  captainUserId: string
+  data: CreateTeamInput
 ) {
     const season = await prisma.season.findFirst({
   where: {
@@ -15,6 +14,17 @@ if (!season) {
   throw new Error("No active season found");
 }
 
+const existingTeam = await prisma.team.findFirst({
+  where: {
+    seasonId: season.id,
+    name: data.name,
+  },
+});
+
+if (existingTeam) {
+  throw new Error("Team already exists");
+}
+
   const team = await prisma.team.create({
   data: {
     seasonId: season.id,
@@ -23,7 +33,7 @@ if (!season) {
 
     logoUrl: data.logoUrl,
 
-    captainUserId,
+    captainUserId: null,
 
     totalBudget: BigInt(120000000),
 

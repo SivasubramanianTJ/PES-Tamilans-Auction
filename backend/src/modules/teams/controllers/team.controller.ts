@@ -13,10 +13,7 @@ export async function createTeamController(
   try {
     const data = createTeamSchema.parse(req.body);
 
-    const team = await createTeam(
-  data,
-  req.user!.id
-);
+    const team = await createTeam(data);
 
     return res.status(201).json({
       success: true,

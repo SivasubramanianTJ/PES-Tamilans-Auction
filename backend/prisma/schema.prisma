@@ -72,7 +72,7 @@ model Team {
   seasonId        String
   name            String
   logoUrl         String?
-  captainUserId   String
+  captainUserId   String?
   totalBudget     BigInt
   remainingBudget BigInt
   retentionUsed   Int            @default(0)
@@ -81,7 +81,7 @@ model Team {
   updatedAt       DateTime       @updatedAt
   auctionBids     AuctionBid[]
   players         SeasonPlayer[]
-  captain         User           @relation("TeamCaptain", fields: [captainUserId], references: [id])
+  captain         User?           @relation("TeamCaptain", fields: [captainUserId], references: [id])
   season          Season         @relation(fields: [seasonId], references: [id])
 
   @@unique([seasonId, name])
