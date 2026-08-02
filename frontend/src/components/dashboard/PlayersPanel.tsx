@@ -4,6 +4,7 @@ import {
   getAllPlayers,
   deletePlayer,
   updatePlayer,
+  importPlayers,
 } from "../../api/players";
 
 function PlayersPanel() {
@@ -12,6 +13,7 @@ function PlayersPanel() {
     const [editingId, setEditingId] = useState("");
 const [editName, setEditName] = useState("");
 const [editPhone, setEditPhone] = useState("");
+const [excelFile, setExcelFile] = useState<File | null>(null);
 
   useEffect(() => {
     loadPlayers();
@@ -50,6 +52,24 @@ async function saveEdit() {
   loadPlayers();
 }
 
+async function handleUpload() {
+  if (!excelFile) {
+    alert("Choose an Excel file");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", excelFile);
+
+  await importPlayers(formData);
+
+  setExcelFile(null);
+
+  loadPlayers();
+
+  alert("Players imported successfully");
+}
+
   return (
     <div className="space-y-5">
 
@@ -57,6 +77,24 @@ async function saveEdit() {
         Players
       </h1>
 
+      <div className="bg-slate-800 rounded-lg p-6 flex items-center gap-5">
+
+  <input
+    type="file"
+    accept=".xlsx,.xls"
+    onChange={(e) =>
+      setExcelFile(e.target.files?.[0] ?? null)
+    }
+  />
+
+  <button
+    onClick={handleUpload}
+    className="bg-green-600 px-5 py-2 rounded"
+  >
+    Upload Excel
+  </button>
+
+</div>
       
 
       {players.map((player) => (

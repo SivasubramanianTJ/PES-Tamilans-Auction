@@ -365,9 +365,7 @@ export async function getCurrentAuctionService() {
   return {
   player: seasonPlayer.player.name,
   phoneNumber: seasonPlayer.player.phoneNumber,
-  imageUrl: seasonPlayer.player.imageUrl
-  ? `import.meta.env.VITE_API_URLimport.meta.env.VITE_API_URL/uploads/players/${seasonPlayer.player.imageUrl}`
-  : null,
+  imageUrl: `/uploads/players/${seasonPlayer.player.imageUrl}`,
 
   basePrice: seasonPlayer.basePrice,
   currentBid: season.currentBid,

@@ -17,3 +17,11 @@ export function updatePlayer(
 ) {
   return api.patch(`/players/${id}`, data);
 }
+
+export function importPlayers(data: FormData) {
+  return api.post("/players/import", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
