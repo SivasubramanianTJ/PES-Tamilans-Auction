@@ -1,23 +1,27 @@
 import api from "./axios";
 
-export const getTeams = () => api.get("/teams");
-
 export const createTeam = (data: {
   name: string;
   logoUrl?: string;
-}) => api.post("/teams", data);
+}) => {
+  return api.post("/teams", data);
+};
 
-export const getAvailableCaptains = () =>
-  api.get("/teams/available-captains");
+export const getAllTeams = () => {
+  return api.get("/teams");
+};
 
-export const assignCaptain = (
-  teamId: string,
-  captainUserId: string
-) =>
-  api.patch("/teams/assign-captain", {
-    teamId,
-    captainUserId,
-  });
+export const getAvailableCaptains = () => {
+  return api.get("/teams/available-captains");
+};
 
-export const deleteTeam = (teamId: string) =>
-  api.delete(`/teams/${teamId}`);
+export const assignCaptain = (data: {
+  teamId: string;
+  captainUserId: string;
+}) => {
+  return api.patch("/teams/assign-captain", data);
+};
+
+export const deleteTeam = (teamId: string) => {
+  return api.delete(`/teams/${teamId}`);
+};

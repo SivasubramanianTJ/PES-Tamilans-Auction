@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+
 import {
-  getTeams,
   createTeam,
-  deleteTeam,
-  assignCaptain,
+  getAllTeams,
   getAvailableCaptains,
+  assignCaptain,
+  deleteTeam,
 } from "../../api/team";
 
 function TeamsPanel() {
@@ -17,14 +18,17 @@ function TeamsPanel() {
   }, []);
 
   async function loadData() {
-    const [teamsRes, captainsRes] = await Promise.all([
-      getTeams(),
-      getAvailableCaptains(),
-    ]);
+  const [teamsRes, captainsRes] = await Promise.all([
+    getAllTeams(),
+    getAvailableCaptains(),
+  ]);
 
-    setTeams(teamsRes.data.data);
-    setCaptains(captainsRes.data.data);
-  }
+  console.log(teamsRes.data.data);
+  console.log(captainsRes.data.data);
+
+  setTeams(teamsRes.data.data);
+  setCaptains(captainsRes.data.data);
+}
 
   async function handleCreate() {
     if (!teamName.trim()) return;
@@ -40,7 +44,10 @@ function TeamsPanel() {
   async function handleAssign(teamId: string, captainId: string) {
     if (!captainId) return;
 
-    await assignCaptain(teamId, captainId);
+    await assignCaptain({
+  teamId,
+  captainUserId: captainId,
+});
 
     loadData();
   }
