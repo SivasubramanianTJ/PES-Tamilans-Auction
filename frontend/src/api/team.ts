@@ -22,6 +22,10 @@ export const assignCaptain = (data: {
   return api.patch("/teams/assign-captain", data);
 };
 
+export function removeCaptain(teamId: string) {
+  return api.patch(`/teams/${teamId}/remove-captain`);
+}
+
 export const deleteTeam = (teamId: string) => {
   return api.delete(`/teams/${teamId}`);
 };

@@ -9,6 +9,7 @@ import {
   getAllTeamsService,
   assignCaptainService,
   getAvailableCaptainsService,
+  removeCaptainService,
 } from "../services/team.service.js";
 import { getMyTeamService } from "../services/team.service.js";
 import {
@@ -204,6 +205,31 @@ export async function getAvailableCaptainsController(
     return res.status(200).json({
       success: true,
       data: captains,
+    });
+
+  } catch (error: any) {
+
+    return res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+
+  }
+}
+
+export async function removeCaptainController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const team = await removeCaptainService(
+      req.params.id as string
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Captain removed successfully",
+      data: team,
     });
 
   } catch (error: any) {

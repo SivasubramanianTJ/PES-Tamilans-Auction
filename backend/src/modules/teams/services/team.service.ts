@@ -276,3 +276,31 @@ export async function getAvailableCaptainsService() {
 
   return captains;
 }
+
+export async function removeCaptainService(teamId: string) {
+
+  const team = await prisma.team.findUnique({
+    where: {
+      id: teamId,
+    },
+  });
+
+  if (!team) {
+    throw new Error("Team not found");
+  }
+
+  if (!team.captainUserId) {
+    throw new Error("Team has no captain");
+  }
+
+  const updatedTeam = await prisma.team.update({
+    where: {
+      id: teamId,
+    },
+    data: {
+      captainUserId: null,
+    },
+  });
+
+  return updatedTeam;
+}

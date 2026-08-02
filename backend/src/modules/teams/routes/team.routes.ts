@@ -11,7 +11,9 @@ import {
   getAllTeamsController,
   deleteTeamController,
   getAvailableCaptainsController,
+  removeCaptainController,
 } from "../controllers/team.controller.js";
+
 import { teamLogoUpload } from "../middleware/teamLogoUpload.middleware.js";
 
 import { getMyTeamController } from "../controllers/team.controller.js";
@@ -62,6 +64,13 @@ router.get(
   authenticate,
   authorize("SUPER_ADMIN"),
   getAllTeamsController
+);
+
+router.patch(
+  "/:id/remove-captain",
+  authenticate,
+  authorize("SUPER_ADMIN"),
+  removeCaptainController
 );
 
 router.delete(

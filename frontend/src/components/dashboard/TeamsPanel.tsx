@@ -5,6 +5,7 @@ import {
   getAllTeams,
   getAvailableCaptains,
   assignCaptain,
+  removeCaptain,
   deleteTeam,
 } from "../../api/team";
 
@@ -49,8 +50,19 @@ function TeamsPanel() {
   captainUserId: captainId,
 });
 
+
     loadData();
   }
+
+async function handleRemoveCaptain(teamId: string) {
+
+  if (!confirm("Remove this captain?")) return;
+
+  await removeCaptain(teamId);
+
+  loadData();
+}
+
 
   async function handleDelete(teamId: string) {
     if (!confirm("Delete this team?")) return;
@@ -109,37 +121,39 @@ function TeamsPanel() {
             <div className="flex gap-3">
 
               {!team.captain && (
+  <select
+    defaultValue=""
+    onChange={(e) => handleAssign(team.id, e.target.value)}
+    className="bg-slate-700 p-2 rounded"
+  >
+    <option value="">Assign Captain</option>
 
-                <select
-                  defaultValue=""
-                  onChange={(e) =>
-                    handleAssign(team.id, e.target.value)
-                  }
-                  className="bg-slate-700 p-2 rounded"
-                >
-                  <option value="">
-                    Assign Captain
-                  </option>
+    {captains.map((captain) => (
+      <option
+        key={captain.id}
+        value={captain.id}
+      >
+        {captain.fullName}
+      </option>
+    ))}
+  </select>
+)}
 
-                  {captains.map((captain) => (
-                    <option
-                      key={captain.id}
-                      value={captain.id}
-                    >
-                      {captain.fullName}
-                    </option>
-                  ))}
+{team.captain && (
+  <button
+    onClick={() => handleRemoveCaptain(team.id)}
+    className="bg-orange-600 px-4 rounded"
+  >
+    Remove Captain
+  </button>
+)}
 
-                </select>
-
-              )}
-
-              <button
-                onClick={() => handleDelete(team.id)}
-                className="bg-red-600 px-4 rounded"
-              >
-                Delete
-              </button>
+<button
+  onClick={() => handleDelete(team.id)}
+  className="bg-red-600 px-4 rounded"
+>
+  Delete
+</button>
 
             </div>
 
