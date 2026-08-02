@@ -43,3 +43,11 @@ export async function createPlayer(data: CreatePlayerInput) {
 
   return player;
 }
+
+export async function getAllPlayersService() {
+  return prisma.player.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
+}

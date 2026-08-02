@@ -8,6 +8,9 @@ import fs from "fs";
 
 import { prisma } from "../../../config/prisma.js";
 import { importPlayerSchema } from "../validations/importPlayer.validation.js";
+import {
+  getAllPlayersService,
+} from "../services/player.service.js";
 
 export async function createPlayerController(
   req: Request,
@@ -193,5 +196,27 @@ export async function getPlayersController(
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",
     });
+  }
+}
+
+export async function getAllPlayersController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const players = await getAllPlayersService();
+
+    return res.status(200).json({
+      success: true,
+      data: players,
+    });
+
+  } catch (error: any) {
+
+    return res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+
   }
 }
