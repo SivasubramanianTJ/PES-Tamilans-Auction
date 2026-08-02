@@ -22,10 +22,9 @@ export const startPlayerAuction = (seasonPlayerId: number) => {
   });
 };
 
-export const placeBid = (teamId: number, amount: number) => {
+export const placeBid = (teamId: string) => {
   return api.post("/live-auction/place-bid", {
     teamId,
-    amount,
   });
 };
 

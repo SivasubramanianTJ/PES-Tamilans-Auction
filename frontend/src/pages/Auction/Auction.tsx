@@ -4,6 +4,7 @@ import {
   getBidHistory,
   getLiveTeams,
   getRemainingPlayers,
+  placeBid,
 } from "../../api/auction";
 import socket from "../../socket/socket";
 
@@ -25,6 +26,8 @@ const [unsoldData, setUnsoldData] = useState<{
 } | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(10);
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [myTeam, setMyTeam] = useState<any>(null);
   
 
 useEffect(() => {
@@ -51,24 +54,6 @@ socket.on("auction:new-bid", () => {
 
 socket.on("auction:timer", (time: number) => {
   setTimeLeft(time);
-});
-
-socket.on("auction:player-unsold", (data) => {
-  console.log("Player Unsold", data);
-
-  setUnsoldData(data);
-  setUnsoldPopup(true);
-
-  setTimeout(() => {
-    setUnsoldPopup(false);
-    setUnsoldData(null);
-  }, 3000);
-
-  setAuction(null);
-  setBidHistory([]);
-
-  loadTeams();
-  loadPlayers();
 });
 
 socket.on("auction:player-unsold", (data) => {
@@ -122,6 +107,11 @@ async function loadTeams() {
   try {
     const response = await getLiveTeams();
     setTeams(response.data.data);
+    const team = response.data.data.find(
+  (t: any) => t.captainName === user.fullName
+);
+
+setMyTeam(team ?? null);
   } catch (error) {
     console.error(error);
   }
@@ -136,6 +126,18 @@ async function loadPlayers() {
   }
 }
 
+async function handleBid() {
+  if (!auction || !myTeam) return;
+
+  try {
+    await placeBid(myTeam.id);
+  } catch (error: any) {
+    alert(
+      error?.response?.data?.error ??
+      "Unable to place bid"
+    );
+  }
+}
 
 function logout() {
   localStorage.removeItem("token");
@@ -232,6 +234,18 @@ function logout() {
       {auction.currentTeam ?? "No bids"}
     </p>
   </div>
+
+  {user.role === "CAPTAIN" && myTeam && (
+  <button
+    onClick={handleBid}
+    disabled={auction.currentTeam === myTeam.name}
+    className="mt-6 w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed py-3 rounded-lg text-xl font-bold"
+  >
+    {auction.currentTeam === myTeam.name
+      ? "Highest Bidder"
+      : "Place Bid"}
+  </button>
+)}
 
 </div>
 

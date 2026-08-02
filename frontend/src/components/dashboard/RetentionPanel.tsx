@@ -17,6 +17,7 @@ function RetentionPanel() {
   async function loadTeams() {
     const response = await getLiveTeams();
     setTeams(response.data.data);
+    
   }
 
   async function loadPlayers() {
