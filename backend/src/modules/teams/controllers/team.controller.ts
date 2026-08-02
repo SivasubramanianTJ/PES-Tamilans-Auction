@@ -142,17 +142,31 @@ export async function getAllTeamsController(
   try {
     const teams = await getAllTeamsService();
 
-    return res.json({
+    const serializedTeams = JSON.parse(
+      JSON.stringify(
+        teams,
+        (_, value) =>
+          typeof value === "bigint"
+            ? value.toString()
+            : value
+      )
+    );
+
+    return res.status(200).json({
       success: true,
-      data: teams,
+      data: serializedTeams,
     });
+
   } catch (error) {
+
     return res.status(400).json({
       success: false,
-      error: error instanceof Error
-        ? error.message
-        : "Unknown error",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unknown error",
     });
+
   }
 }
 
