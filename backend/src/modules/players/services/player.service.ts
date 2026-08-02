@@ -51,3 +51,63 @@ export async function getAllPlayersService() {
     },
   });
 }
+
+export async function deletePlayerService(
+  playerId: string
+) {
+  const player = await prisma.player.findUnique({
+    where: {
+      id: playerId,
+    },
+  });
+
+  if (!player) {
+    throw new Error("Player not found");
+  }
+
+  await prisma.$transaction([
+    prisma.seasonPlayer.deleteMany({
+      where: {
+        playerId,
+      },
+    }),
+
+    prisma.player.delete({
+      where: {
+        id: playerId,
+      },
+    }),
+  ]);
+
+  return {
+    message: "Player deleted successfully",
+  };
+}
+
+export async function updatePlayerService(
+  playerId: string,
+  data: {
+    name: string;
+    phoneNumber: string;
+  }
+) {
+  const player = await prisma.player.findUnique({
+    where: {
+      id: playerId,
+    },
+  });
+
+  if (!player) {
+    throw new Error("Player not found");
+  }
+
+  return prisma.player.update({
+    where: {
+      id: playerId,
+    },
+    data: {
+      name: data.name,
+      phoneNumber: data.phoneNumber,
+    },
+  });
+}

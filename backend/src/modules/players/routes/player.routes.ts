@@ -5,6 +5,8 @@ import {
   importPlayersController,
   uploadPlayerImagesController,
   getAllPlayersController,
+  deletePlayerController,
+  updatePlayerController,
 } from "../controllers/player.controller.js";
 import { authenticate } from "../../auth/middleware/auth.middleware.js";
 import { upload } from "../../auth/middleware/upload.middleware.js";
@@ -37,6 +39,20 @@ router.get(
   authenticate,
   authorize("SUPER_ADMIN"),
   getAllPlayersController
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("SUPER_ADMIN"),
+  deletePlayerController
+);
+
+router.patch(
+  "/:id",
+  authenticate,
+  authorize("SUPER_ADMIN"),
+  updatePlayerController
 );
 
 export default router;

@@ -26,7 +26,7 @@ function Dashboard() {
       <aside className="w-64 bg-slate-800 p-6">
 
         <h1 className="text-2xl font-bold mb-8">
-          🏏 PES TAMILANS
+          PES TAMILANS
         </h1>
 
         <div className="space-y-3">

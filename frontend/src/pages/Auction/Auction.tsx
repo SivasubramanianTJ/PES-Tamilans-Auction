@@ -176,7 +176,7 @@ function logout() {
 <div className="bg-slate-800 rounded-xl p-8 w-[450px]">
 
   <h1 className="text-3xl font-bold mb-8">
-    🏏 Live Auction
+    Live Auction
   </h1>
   <div className="flex justify-center mb-6">
   <img
@@ -381,7 +381,7 @@ ${
         <div className="bg-green-600 rounded-2xl p-10 text-center shadow-2xl w-[500px]">
 
           <h1 className="text-5xl font-extrabold mb-6">
-            🏏 SOLD
+            SOLD
           </h1>
 
           <p className="text-3xl font-bold">

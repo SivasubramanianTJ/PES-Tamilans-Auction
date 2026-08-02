@@ -1,4 +1,4 @@
-# 🏏 PES Tamilans Auction
+#PES Tamilans Auction
 
 A modern IPL-style player auction platform built with a scalable full-stack architecture.
 

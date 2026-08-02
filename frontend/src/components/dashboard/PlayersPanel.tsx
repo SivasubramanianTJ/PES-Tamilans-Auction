@@ -1,57 +1,124 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import {
+  getAllPlayers,
+  deletePlayer,
+  updatePlayer,
+} from "../../api/players";
 
 function PlayersPanel() {
-  const [file, setFile] = useState<File | null>(null);
 
-  async function uploadPlayers() {
-    if (!file) {
-      alert("Select an Excel file");
-      return;
-    }
+    const [players, setPlayers] = useState<any[]>([]);
+    const [editingId, setEditingId] = useState("");
+const [editName, setEditName] = useState("");
+const [editPhone, setEditPhone] = useState("");
 
-    const formData = new FormData();
-    formData.append("file", file);
+  useEffect(() => {
+    loadPlayers();
+  }, []);
 
-    const token = localStorage.getItem("token");
+  async function loadPlayers() {
+    const res = await getAllPlayers();
 
-    const response = await fetch(
-      "import.meta.env.VITE_API_URL/api/players/import",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    alert(data.message);
+    setPlayers(res.data.data);
   }
 
-  return (
-    <div className="bg-slate-800 rounded-xl p-8 max-w-xl">
+  async function handleDelete(id: string) {
 
-      <h1 className="text-3xl font-bold mb-6">
-        Import Players
+    if (!confirm("Delete player?")) return;
+
+    await deletePlayer(id);
+
+    loadPlayers();
+  }
+
+ function startEdit(player: any) {
+  setEditingId(player.id);
+  setEditName(player.name);
+  setEditPhone(player.phoneNumber);
+}
+
+async function saveEdit() {
+
+  await updatePlayer(editingId, {
+    name: editName,
+    phoneNumber: editPhone,
+  });
+
+  setEditingId("");
+
+  loadPlayers();
+}
+
+  return (
+    <div className="space-y-5">
+
+      <h1 className="text-3xl font-bold">
+        Players
       </h1>
 
-      <input
-        type="file"
-        accept=".xlsx"
-        onChange={(e) =>
-          setFile(e.target.files?.[0] ?? null)
-        }
-      />
+      {players.map((player) => (
+
+  <div
+    key={player.id}
+    className="bg-slate-800 rounded-lg p-4 flex justify-between items-center"
+  >
+
+    {editingId === player.id ? (
+
+      <div className="space-y-2">
+
+        <input
+          value={editName}
+          onChange={(e) => setEditName(e.target.value)}
+          className="bg-slate-700 p-2 rounded"
+        />
+
+        <input
+          value={editPhone}
+          onChange={(e) => setEditPhone(e.target.value)}
+          className="bg-slate-700 p-2 rounded"
+        />
+
+        <button
+          onClick={saveEdit}
+          className="bg-green-600 px-4 py-2 rounded"
+        >
+          Save
+        </button>
+
+      </div>
+
+    ) : (
+
+      <div>
+        <h2 className="font-bold">{player.name}</h2>
+        <p>{player.phoneNumber}</p>
+      </div>
+
+    )}
+
+    <div className="flex gap-2">
 
       <button
-        onClick={uploadPlayers}
-        className="mt-6 bg-green-600 px-6 py-3 rounded-lg"
+        onClick={() => startEdit(player)}
+        className="bg-yellow-500 px-4 py-2 rounded"
       >
-        Upload Excel
+        Edit
       </button>
 
+      <button
+        onClick={() => handleDelete(player.id)}
+        className="bg-red-600 px-4 py-2 rounded"
+      >
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
+))}
     </div>
   );
 }

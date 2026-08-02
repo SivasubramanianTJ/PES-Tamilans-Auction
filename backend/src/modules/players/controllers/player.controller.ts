@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 
-import { createPlayerSchema } from "../validations/player.validation.js";
+import {
+  createPlayerSchema,
+  updatePlayerSchema,
+} from "../validations/player.validation.js";
 import { createPlayer } from "../services/player.service.js";
 
 import XLSX from "xlsx";
@@ -10,6 +13,8 @@ import { prisma } from "../../../config/prisma.js";
 import { importPlayerSchema } from "../validations/importPlayer.validation.js";
 import {
   getAllPlayersService,
+  deletePlayerService,
+  updatePlayerService,
 } from "../services/player.service.js";
 
 export async function createPlayerController(
@@ -209,6 +214,57 @@ export async function getAllPlayersController(
     return res.status(200).json({
       success: true,
       data: players,
+    });
+
+  } catch (error: any) {
+
+    return res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+
+  }
+}
+
+export async function deletePlayerController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const result = await deletePlayerService(
+      req.params.id as string
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: result.message,
+    });
+
+  } catch (error: any) {
+
+    return res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+
+  }
+}
+
+export async function updatePlayerController(
+  req: Request,
+  res: Response
+) {
+  try {
+    const data = updatePlayerSchema.parse(req.body);
+
+    const player = await updatePlayerService(
+      req.params.id as string,
+      data
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: player,
     });
 
   } catch (error: any) {

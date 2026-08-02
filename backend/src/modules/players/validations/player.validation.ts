@@ -10,4 +10,9 @@ export const createPlayerSchema = z.object({
   userId: z.string().uuid().optional(),
 });
 
+export const updatePlayerSchema = z.object({
+  name: z.string().min(1),
+  phoneNumber: z.string().min(10),
+});
+
 export type CreatePlayerInput = z.infer<typeof createPlayerSchema>;
